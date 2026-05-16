@@ -29,10 +29,10 @@ class RegisterUserType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'constraints' => [
-                    new Length([
-                        'min' => 4 ,
-                        'max' => 30
-                    ])
+                    new Length(
+                        min : 4 ,
+                        max : 30
+                    )
                 ],
                 'first_options'  => [
                     'label' => 'Saisir votre Mot de passe', 
@@ -52,10 +52,10 @@ class RegisterUserType extends AbstractType
             ->add('firstname',TextType::class,[
                 'label' => 'Votre Prénom',
                 'constraints' => [
-                    new Length([
-                        'min' => 2 ,
-                        'max' => 30
-                    ])
+                    new Length(
+                        min : 4 ,
+                        max : 30
+                    )
                 ],
                 'attr' =>[
                     'placeholder' => 'Saisir votre Prenom'
@@ -64,10 +64,10 @@ class RegisterUserType extends AbstractType
             ->add('lastname',TextType::class,[
                 'label' => 'Votre Nom',
                 'constraints' => [
-                    new Length([
-                        'min' => 2 ,
-                        'max' => 30
-                    ])
+                    new Length(
+                        min : 4 ,
+                        max : 30
+                    )
                 ],
                 'attr' =>[
                     'placeholder' => 'Saisir votre Nom'

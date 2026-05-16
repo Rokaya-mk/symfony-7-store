@@ -30,10 +30,10 @@ class PasswordUserType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'constraints' => [
-                    new Length([
-                        'min' => 4 ,
-                        'max' => 30
-                    ])
+                    new Length(
+                        min : 4 ,
+                        max : 30
+                    )
                 ],
                 'first_options'  => [
                     'label' => 'Saisir votre nouveau Mot de passe', 
