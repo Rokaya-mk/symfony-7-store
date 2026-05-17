@@ -100,6 +100,13 @@ class Product
         return $this;
     }
 
+    public function getPriceWithTva() :?float
+    {
+        $taux =1+ ($this->tva/100) ;
+        return $taux * $this->price ; 
+
+    }
+
     public function getTva(): ?float
     {
         return $this->tva;
