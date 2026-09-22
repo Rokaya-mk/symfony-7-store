@@ -30,7 +30,8 @@ class Cart{
         
 
         // create session cart
-        $this->getCart()->set('cart',$cart);
+            $this->requestStack->getSession()->set('cart', $cart);
+
 
         
         
