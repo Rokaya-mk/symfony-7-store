@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Account;
+
 
 use App\Form\PasswordUserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,24 +11,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class AccountController extends AbstractController
+final class ProfileController extends AbstractController
 {
-    #[Route('/compte', name: 'app_account')]
-    public function index(): Response
-    {
-        return $this->render('account/index.html.twig');
+    private UserPasswordHasherInterface $passwordHasher;
+    private EntityManagerInterface $entityManager;
+    public function __construct(
+         UserPasswordHasherInterface $passwordHasher,
+         EntityManagerInterface $entityManager
+    ) {
+        $this->passwordHasher = $passwordHasher;
+        $this->entityManager = $entityManager;
     }
+   
 
     #[Route('/compte/modifier-mot-passe', name: 'app_account_modifier_passe')]
-    public function modifierPassword(
+    public function index(
                                     Request $request, 
-                                    UserPasswordHasherInterface $passwordHasher,
-                                    EntityManagerInterface $entityManager
                                     ): Response
     {
         $user = $this->getUser();
         $form =$this->createForm(PasswordUserType::class,$user,[
-            'passwordHasher' => $passwordHasher
+            'passwordHasher' => $this->passwordHasher
         ]);
         $form->handleRequest($request);
 
@@ -36,11 +40,13 @@ final class AccountController extends AbstractController
                 'success',
                 'Votre mot de passe est mis a jour!'
             );
-            $entityManager->flush();
+            $this->entityManager->flush();
         }
 
-        return $this->render('account/modifier-password.html.twig',[
+        return $this->render('account/profile/modifier-password.html.twig',[
             'modifierPassword' => $form->createView()
         ]);
     }
+
+   
 }
