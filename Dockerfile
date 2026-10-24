@@ -5,4 +5,5 @@ RUN apt-get update && apt-get install -y git unzip libzip-dev libicu-dev \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
+COPY .env.example .env
 RUN composer install --no-interaction --optimize-autoloader
