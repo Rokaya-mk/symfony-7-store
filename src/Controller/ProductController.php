@@ -9,6 +9,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProductController extends AbstractController
 {
+    #[Route('/produits', name: 'app_products')]
+    public function list(ProductRepository $productRepository): Response
+    {
+        return $this->render('product/list.html.twig', [
+            'products' => $productRepository->findAll(),
+        ]);
+    }
     #[Route('/produit/{slug}', name: 'app_product')]
     public function index($slug,ProductRepository $productRepository): Response
     {

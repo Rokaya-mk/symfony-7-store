@@ -30,14 +30,18 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                        <ul class="dropdown-menu">
+                            {% for category in allCategories %}
+                                <li><a class="dropdown-item" href="{{ path('app_category', {slug: category.slug}) }}">{{ category.name }}</a></li>
+                            {% else %}
+                                <li><span class="dropdown-item-text">No categories yet</span></li>
+                            {% endfor %}
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="{{ path('app_products') }}">Products</a>
                     </li>
                 </ul>
                 <div class="speed-menu">

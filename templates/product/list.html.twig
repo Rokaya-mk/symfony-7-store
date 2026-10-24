@@ -1,0 +1,23 @@
+﻿{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-4">Products</h1>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a class="text-decoration-none" href="{{ path('app_product', {slug: product.slug}) }}">
+                        <img src="/uploads/{{ product.image }}" alt="{{ product.name }}" class="img-fluid">
+                        <span class="d-block fw-bold text-black mt-2">{{ product.name }}</span>
+                    </a>
+                    <span class="d-block">{{ product.priceWithTva|prix }}</span>
+                    {% if product.category %}
+                        <a href="{{ path('app_category', {slug: product.category.slug}) }}">{{ product.category.name }}</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>No products are available yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
