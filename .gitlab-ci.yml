@@ -1,0 +1,37 @@
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: php:8.5-cli
+  services:
+    - name: mysql:8.0
+      alias: mysql
+  variables:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: symfonystore
+    APP_ENV: test
+    DATABASE_URL: "mysql://root:root@mysql:3306/symfonystore?serverVersion=8.0"
+  before_script:
+    - apt-get update && apt-get install -y git unzip libzip-dev libicu-dev
+    - docker-php-ext-install -j1 pdo_mysql zip intl
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - cp .env.example .env
+    - composer install --no-interaction --prefer-dist
+  script:
+    - php bin/console doctrine:database:create --if-not-exists --env=test
+    - php bin/console doctrine:schema:create --env=test
+    - php bin/phpunit
+
+build:
+  stage: build
+  image: docker:27
+  services:
+    - docker:27-dind
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:latest" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - docker push --all-tags "$CI_REGISTRY_IMAGE"
