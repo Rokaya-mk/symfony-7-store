@@ -15,7 +15,7 @@ class RegisterUserTest extends WebTestCase
         // faire request
         $client = static::createClient();
         $crawler = $client->request('GET', '/inscription');
-
+        $this->assertResponseIsSuccessful();
         // remplire le formulaire
         /**
          * register_user[email]
@@ -24,6 +24,7 @@ class RegisterUserTest extends WebTestCase
          * register_user[firstname]
          * register_user[lastname]
          */
+        
         $client->submitForm('register_user_submit',
         [
             'register_user[email]' => 'fake_user@email.com',
