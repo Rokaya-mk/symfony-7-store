@@ -23,3 +23,8 @@
 /public/uploads/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+infra/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
