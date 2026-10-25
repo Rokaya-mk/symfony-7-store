@@ -9,3 +9,4 @@ COPY .env.example .env
 RUN composer install --no-interaction --optimize-autoloader
 RUN APP_ENV=prod php bin/console importmap:install \
  && APP_ENV=prod php bin/console asset-map:compile
+RUN mkdir -p var/cache var/log && chown -R www-data:www-data var
